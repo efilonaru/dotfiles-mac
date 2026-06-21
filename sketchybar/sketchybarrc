@@ -1,189 +1,64 @@
-#!/bin/bash
-
 PLUGIN_DIR="$CONFIG_DIR/plugins"
-
-# Load colors (used by Aerospace workspace items)
 source "$CONFIG_DIR/colors.sh"
 
-##### Bar Appearance #####
-BG=0x40000000
-FONT_COLOR=0xffcdd6f4
-ITEM_COLOR=0x00000000
-ITEM_PADDING=8
-GAP=6
+##### Bar #####
+sketchybar --bar position=top height=32 blur_radius=0 color=$BACKGROUND \
+           padding_left=10 padding_right=10 \
+           y_offset=8 margin=8
 
-sketchybar --bar \
-  position=top \
-  margin=8 y_offset=4 height=28 \
-  corner_radius=12 blur_radius=30 \
-  border_width=0 \
-  padding_left=17 padding_right=20 \
-  shadow.color=0x20000000 shadow.angle=90 shadow.distance=3 shadow.drawing=on \
-  color=$BG
+##### Defaults #####
+default=(
+  padding_left=3
+  padding_right=3
+  icon.font="Hack Nerd Font:Bold:16.0"
+  label.font="SF Pro:Semibold:15.0"
+  icon.color=$PRIMARY
+  label.color=$PRIMARY
+  icon.padding_left=4
+  icon.padding_right=3
+  label.padding_left=3
+  label.padding_right=4
+)
+sketchybar --default "${default[@]}"
 
-##### Changing Defaults #####
-sketchybar --default \
-  label.font="SF Pro:Semibold:11.5" label.color=$FONT_COLOR \
-  label.padding_left=$ITEM_PADDING label.padding_right=$ITEM_PADDING \
-  icon.font="Hack Nerd Font:Regular:16" \
-  icon.padding_left=$ITEM_PADDING \
-  background.color=$ITEM_COLOR \
-  background.padding_right=$GAP background.height=25 \
-  background.corner_radius=8
+##### Left #####
+sketchybar --add item apple left \
+           --set apple \
+             icon="" \
+             label.drawing=off \
+             icon.font="Hack Nerd Font:Bold:18.0" \
+             icon.padding_right=8 \
+             icon.padding_top=8 \
+           --add item workspace left \
+           --set workspace \
+             icon.font="SF Pro:Semibold:15.0" \
+             label.font="SF Pro:Semibold:15.0" \
+             background.corner_radius=4 \
+             background.height=20 \
+             background.color=0x18474747 \
+             background.drawing=on \
+             script="$PLUGIN_DIR/workspace.sh" \
+           --subscribe workspace aerospace_workspace_change \
+           --add item front_app left \
+           --set front_app \
+             icon.drawing=off \
+             script="$PLUGIN_DIR/front_app.sh" \
+           --subscribe front_app front_app_switched
 
-##### Left Items #####
-
-# macOS indicator
-sketchybar --add item os left \
-  --set os \
-  icon= icon.color=0xffffffff \
-  icon.font.size=21 icon.y_offset=2 \
-  icon.padding_left=0 icon.padding_right=0 \
-  label.padding_left=0 label.padding_right=6 \
-  background.drawing=off \
-  background.padding_right=$GAP
-
-# Front app
-sketchybar --add item front-app left \
-  --set front-app \
-  script="$PLUGIN_DIR/front-app.sh" \
-  label.font.style="Bold" \
-  click_script="$PLUGIN_DIR/front-app-click.sh" \
-  --subscribe front-app front_app_switched
-
-# Mic/camera in-use indicator
-sketchybar --add item mic left \
-  --set mic \
-  icon=󰍬 icon.color=0xffed8796 \
-  label="" \
-  drawing=off \
-  script="$PLUGIN_DIR/mic.sh" \
-  update_freq=5
-
-# Weather
-# sketchybar --add item weather left \
-# --set weather \
-# icon=󰖐 \
-# script="$PLUGIN_DIR/weather.sh" \
-# update_freq=1500 \
-# --subscribe weather mouse.clicked
-
-# CPU + RAM
-sketchybar --add item sysinfo left \
-  --set sysinfo \
-  script="$PLUGIN_DIR/sysinfo.sh" \
-  update_freq=30
-
-##### Right Items #####
-
-# Clock
+##### Right #####
 sketchybar --add item clock right \
-  --set clock \
-  script="$PLUGIN_DIR/clock.sh" \
-  background.padding_right=$GAP \
-  update_freq=10 \
-  --subscribe clock mouse.entered mouse.exited mouse.clicked
+           --set clock \
+             update_freq=10 \
+             icon.drawing=off \
+             script="$PLUGIN_DIR/clock.sh" \
+           --add item volume right \
+           --set volume \
+             script="$PLUGIN_DIR/volume.sh" \
+           --subscribe volume volume_change \
+           --add item battery right \
+           --set battery \
+             update_freq=120 \
+             script="$PLUGIN_DIR/battery.sh" \
+           --subscribe battery system_woke power_source_change
 
-# Connectivity (disabled)
-# sketchybar --add item spacer.connectivity right \
-#   --set spacer.connectivity \
-#   background.drawing=off \
-#   icon="" label="" \
-#   width=6
-#
-# sketchybar --add item wifi right \
-#   --set wifi \
-#   script="$PLUGIN_DIR/wifi.sh" \
-#   background.drawing=off \
-#   background.padding_right=0 \
-#   icon.padding_left=4 icon.padding_right=0 \
-#   label.padding_left=0 label.padding_right=4 \
-#   update_freq=30 \
-#   --subscribe wifi mouse.entered mouse.exited mouse.clicked
-#
-# sketchybar --add item bluetooth right \
-#   --set bluetooth \
-#   script="$PLUGIN_DIR/bluetooth.sh" \
-#   background.drawing=off \
-#   background.padding_right=0 \
-#   icon.padding_left=4 icon.padding_right=0 \
-#   label.padding_left=0 label.padding_right=4 \
-#   update_freq=30 \
-#   --subscribe bluetooth mouse.entered mouse.exited mouse.clicked
-#
-# sketchybar --add bracket connectivity wifi bluetooth \
-#   --set connectivity \
-#   background.color=$ITEM_COLOR \
-#   background.corner_radius=6 \
-#   background.height=25 \
-#   background.padding_right=$GAP
-
-# Battery
-sketchybar --add item battery right \
-  --set battery \
-  script="$PLUGIN_DIR/battery.sh" \
-  update_freq=30 \
-  --subscribe battery mouse.entered mouse.exited
-
-# Volume
-sketchybar --add item volume right \
-  --set volume \
-  script="$PLUGIN_DIR/volume.sh" \
-  update_freq=30 \
-  --subscribe volume volume_change mouse.clicked
-
-# Aerospace Workspace (native macOS menu on click)
-sketchybar --add event aerospace_workspace_change
-
-sketchybar --add item aerospace_name right \
-  --set aerospace_name \
-  icon.drawing=off \
-  label.font="SF Pro:Bold:12.0" \
-  label.padding_left=0 \
-  background.padding_right=$GAP \
-  background.color=$ITEM_COLOR
-
-sketchybar --add item aerospace right \
-  --set aerospace \
-  icon.font="Hack Nerd Font:Regular:16" \
-  icon.color=0xffc6a0f6 \
-  label.font="SF Pro:Bold:12.0" \
-  label.color=0xffc6a0f6 \
-  label.padding_right=0 \
-  background.padding_right=0 \
-  background.color=$ITEM_COLOR \
-  script="$PLUGIN_DIR/aerospace.sh" \
-  click_script="$PLUGIN_DIR/aerospace-click.sh" \
-  --subscribe aerospace aerospace_workspace_change
-
-sketchybar --add item aerospace_service right \
-  --set aerospace_service \
-  icon.drawing=off \
-  label="[S]" \
-  label.font="SF Pro:Bold:12.0" \
-  label.color=0xfff5a97f \
-  label.padding_left=0 \
-  label.padding_right=2 \
-  background.padding_right=0 \
-  drawing=off
-
-# Spotify
-sketchybar --add event spotify_change com.spotify.client.PlaybackStateChanged
-sketchybar --add item spotify right \
-  --set spotify \
-  background.padding_left=$GAP \
-  label.max_chars=30 \
-  scroll_texts=on \
-  script="$PLUGIN_DIR/spotify.sh" \
-  --subscribe spotify spotify_change mouse.clicked
-
-##### Menu bar monitor (hide sketchybar when macOS menu bar appears) #####
-MONITOR_PID="/tmp/sketchybar-menubar-monitor.pid"
-if [ -f "$MONITOR_PID" ]; then
-  kill "$(cat "$MONITOR_PID")" 2>/dev/null
-fi
-"$CONFIG_DIR/helpers/menubar-monitor" &
-echo $! >"$MONITOR_PID"
-
-##### Force all scripts to run the first time (never do this in a script) #####
 sketchybar --update

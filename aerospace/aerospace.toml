@@ -42,6 +42,16 @@ enable-normalization-opposite-orientation-for-nested-containers = true
     alt-3 = 'workspace 3'
     alt-4 = 'workspace 4'
     alt-5 = 'workspace 5'
+    alt-6 = 'workspace 6'
+    alt-7 = 'workspace 7'
+    alt-8 = 'workspace 8'
+    alt-9 = 'workspace 9'
+    alt-t = 'workspace t'
+    alt-c = 'workspace c'
+    alt-b = 'workspace b'
+    alt-n = 'workspace n'
+    alt-m = 'workspace m'
+    alt-w = 'workspace w'
 
     # --- Move window to workspace ---
     alt-shift-1 = 'move-node-to-workspace 1'
@@ -49,7 +59,16 @@ enable-normalization-opposite-orientation-for-nested-containers = true
     alt-shift-3 = 'move-node-to-workspace 3'
     alt-shift-4 = 'move-node-to-workspace 4'
     alt-shift-5 = 'move-node-to-workspace 5'
-
+    alt-shift-6 = 'move-node-to-workspace 6'
+    alt-shift-7 = 'move-node-to-workspace 7'
+    alt-shift-8 = 'move-node-to-workspace 8'
+    alt-shift-9 = 'move-node-to-workspace 9'
+    alt-shift-t = 'move-node-to-workspace t'
+    alt-shift-c = 'move-node-to-workspace c'
+    alt-shift-b = 'move-node-to-workspace b'
+    alt-shift-n = 'move-node-to-workspace n'
+    alt-shift-m = 'move-node-to-workspace m'
+    alt-shift-w = 'move-node-to-workspace w'
     # --- Focus windows (Hyprland/i3 style hjkl) ---
     alt-h = 'focus left'
     alt-j = 'focus down'
@@ -72,8 +91,6 @@ enable-normalization-opposite-orientation-for-nested-containers = true
 
     # --- Spawn a new Ghostty terminal (always opens a NEW window, like Hyprland) ---
     alt-enter = 'exec-and-forget open -n /Applications/Ghostty.app'
-    alt-x     = 'exec-and-forget open -n /Applications/Xcode.app'
-    alt-b     = 'exec-and-forget open -n /Applications/Safari.app'
 
     # --- Reload config ---
     alt-shift-semicolon = 'reload-config'
