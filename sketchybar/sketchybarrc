@@ -3,8 +3,7 @@ source "$CONFIG_DIR/colors.sh"
 
 ##### Bar #####
 sketchybar --bar position=top height=32 blur_radius=0 color=$BACKGROUND \
-           padding_left=10 padding_right=10 \
-           y_offset=8 margin=8
+           padding_left=10 padding_right=10
 
 ##### Defaults #####
 default=(
@@ -21,14 +20,18 @@ default=(
 )
 sketchybar --default "${default[@]}"
 
+##### Events #####
+sketchybar --add event spotify_change com.spotify.client.PlaybackStateChanged
+
 ##### Left #####
 sketchybar --add item apple left \
            --set apple \
              icon="" \
              label.drawing=off \
              icon.font="Hack Nerd Font:Bold:18.0" \
-             icon.padding_right=8 \
-             icon.padding_top=8 \
+             padding_left=8 \
+             padding_right=4 \
+             icon.y_offset=-2 \
            --add item workspace left \
            --set workspace \
              icon.font="SF Pro:Semibold:15.0" \
@@ -43,7 +46,13 @@ sketchybar --add item apple left \
            --set front_app \
              icon.drawing=off \
              script="$PLUGIN_DIR/front_app.sh" \
-           --subscribe front_app front_app_switched
+           --subscribe front_app front_app_switched \
+           --add item spotify left \
+           --set spotify \
+             icon="󰓇" \
+             label.color=$PRIMARY \
+             script="$PLUGIN_DIR/spotify.sh" \
+           --subscribe spotify spotify_change
 
 ##### Right #####
 sketchybar --add item clock right \
@@ -59,6 +68,10 @@ sketchybar --add item clock right \
            --set battery \
              update_freq=120 \
              script="$PLUGIN_DIR/battery.sh" \
-           --subscribe battery system_woke power_source_change
+           --subscribe battery system_woke power_source_change \
+           --add item cpu right \
+           --set cpu \
+             update_freq=5 \
+             script="$PLUGIN_DIR/cpu.sh"
 
 sketchybar --update

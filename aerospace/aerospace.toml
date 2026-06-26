@@ -52,6 +52,8 @@ enable-normalization-opposite-orientation-for-nested-containers = true
     alt-n = 'workspace n'
     alt-m = 'workspace m'
     alt-w = 'workspace w'
+    alt-x = 'workspace x'
+    alt-d = 'workspace d'
 
     # --- Move window to workspace ---
     alt-shift-1 = 'move-node-to-workspace 1'
@@ -69,6 +71,8 @@ enable-normalization-opposite-orientation-for-nested-containers = true
     alt-shift-n = 'move-node-to-workspace n'
     alt-shift-m = 'move-node-to-workspace m'
     alt-shift-w = 'move-node-to-workspace w'
+    alt-shift-x = 'move-node-to-workspace x'
+    alt-shift-d = 'move-node-to-workspace d'
     # --- Focus windows (Hyprland/i3 style hjkl) ---
     alt-h = 'focus left'
     alt-j = 'focus down'
@@ -108,5 +112,5 @@ enable-normalization-opposite-orientation-for-nested-containers = true
 
 exec-on-workspace-change = [
   '/bin/bash', '-c',
-  'sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE'
+  '/opt/homebrew/bin/sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE'
 ]
